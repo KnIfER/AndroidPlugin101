@@ -1,0 +1,16 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+app/src/test
+mapping*
+generated.txt
+release
+*.rar
+*.zip
+gradle
