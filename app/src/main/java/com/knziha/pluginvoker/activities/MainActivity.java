@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.knziha.plugin101.DarkToggle;
+import com.knziha.plugin101.DarkToggleInterface;
 import com.knziha.pluginvoker.R;
 import com.knziha.pluginvoker.databinding.FragmentSecondBinding;
 
@@ -23,6 +25,7 @@ import java.lang.reflect.Constructor;
 
 public class MainActivity extends AppCompatActivity {
 	FragmentSecondBinding fragmentSecondBinding;
+	View darkToggleBtn;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
 		fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 				.setAction("Action", null).show());
 		
+		// needs pre-installing com.knziha.plugin ( the darkToggleButton demo )
 		findViewById(android.R.id.content).postDelayed(() -> {
+			
 			TextView txvA = findViewById(R.id.textview_first);
 			try {
 				String pluginPkg = "com.knziha.plugin101";
@@ -45,14 +50,23 @@ public class MainActivity extends AppCompatActivity {
 				
 				Class<?> darkToggleClass = context.getClassLoader().loadClass(pluginPkg+".DarkToggleButton");
 				Constructor<?> cons = darkToggleClass.getConstructor(Context.class, AttributeSet.class);
-				View darkToggleBtn = (View) cons.newInstance(this, null);
+				darkToggleBtn = (View) cons.newInstance(this, null);
 				((ViewGroup)txvA.getParent()).addView(darkToggleBtn);
 				
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
+			
+			
+			try {
+				DarkToggle darkToggle = new DarkToggle(darkToggleBtn);
+				darkToggle.toggle();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			
+			
 		}, 200);
-		
 	}
 
 	private int getResourseIdByName(Class<?> clazz, String className, String name) {
