@@ -72,18 +72,18 @@ public class MainActivity extends AppCompatActivity {
 				throw new RuntimeException(e);
 			}
 			
-//			try {
-//				new PluginTests(TesseractPluginTestClazz).Test(context);
-//			} catch (Exception e) {
-//				throw new RuntimeException(e);
-//			}
-			
 			try {
 				new PluginTests(PrivatePathTestClazz).Test(context);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 			
+			try {
+				// 需要sdk卡读写权限、需要自己下载模型文件
+				new PluginTests(TesseractPluginTestClazz).Test(context);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
 			
 		}, 200);
 	}
