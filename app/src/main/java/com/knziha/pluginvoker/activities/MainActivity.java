@@ -6,8 +6,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.knziha.plugin101.DarkToggle;
-import com.knziha.plugin101.DarkToggleInterface;
-import com.knziha.plugin101.TesseractPluginTest;
+import com.knziha.plugin101.PluginTests;
 import com.knziha.pluginvoker.R;
 import com.knziha.pluginvoker.databinding.FragmentSecondBinding;
 
@@ -43,11 +42,14 @@ public class MainActivity extends AppCompatActivity {
 			
 			TextView txvA = findViewById(R.id.textview_first);
 			Class TesseractPluginTestClazz = null;
+			Class PrivatePathTestClazz = null;
 			Context context = null;
 			try {
 				String pluginPkg = "com.knziha.plugin101";
 				context = createPackageContext(pluginPkg, Context.CONTEXT_INCLUDE_CODE
-						| Context.CONTEXT_IGNORE_SECURITY);
+						| Context.CONTEXT_IGNORE_SECURITY
+						| Context.CONTEXT_RESTRICTED
+				);
 				Class<?> cls = context.getClassLoader().loadClass(pluginPkg+".R"); // 获得目标apk的R类
 				txvA.setText(context.getResources().getText(getResourseIdByName(cls, "string", "message")));
 				
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 				((ViewGroup)txvA.getParent()).addView(darkToggleBtn);
 				
 				TesseractPluginTestClazz = context.getClassLoader().loadClass(pluginPkg+".TesseractPluginTest");
+				PrivatePathTestClazz = context.getClassLoader().loadClass(pluginPkg+".PrivatePathTest");
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -69,8 +72,14 @@ public class MainActivity extends AppCompatActivity {
 				throw new RuntimeException(e);
 			}
 			
+//			try {
+//				new PluginTests(TesseractPluginTestClazz).Test(context);
+//			} catch (Exception e) {
+//				throw new RuntimeException(e);
+//			}
+			
 			try {
-				new TesseractPluginTest(TesseractPluginTestClazz).Test(context);
+				new PluginTests(PrivatePathTestClazz).Test(context);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

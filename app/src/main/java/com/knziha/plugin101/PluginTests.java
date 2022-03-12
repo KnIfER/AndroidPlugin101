@@ -5,10 +5,10 @@ import android.content.Context;
 
 import java.lang.reflect.Method;
 
-public class TesseractPluginTest{
+public class PluginTests {
 	final Method mTest;
 	
-	public TesseractPluginTest(Class clazz) throws NoSuchMethodException {
+	public PluginTests(Class clazz) throws NoSuchMethodException {
 		mTest = clazz.getMethod("Test", Context.class);
 	}
 	
